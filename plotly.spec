@@ -4,14 +4,14 @@
 #
 Name     : plotly
 Version  : 4.1.1
-Release  : 1
+Release  : 2
 URL      : https://files.pythonhosted.org/packages/3b/26/d68b3042f22ccff4156670dff167c086a94331fe32111d5972aeac0579d4/plotly-4.1.1.tar.gz
 Source0  : https://files.pythonhosted.org/packages/3b/26/d68b3042f22ccff4156670dff167c086a94331fe32111d5972aeac0579d4/plotly-4.1.1.tar.gz
 Summary  : An open-source, interactive graphing library for Python
 Group    : Development/Tools
 License  : MIT
-Requires: plotly-config = %{version}-%{release}
 Requires: plotly-data = %{version}-%{release}
+Requires: plotly-license = %{version}-%{release}
 Requires: plotly-python = %{version}-%{release}
 Requires: plotly-python3 = %{version}-%{release}
 Requires: retrying
@@ -19,17 +19,10 @@ Requires: six
 BuildRequires : buildreq-distutils3
 BuildRequires : retrying
 BuildRequires : six
+Patch1: 0001-Fix-notebook-extension-install-path.patch
 
 %description
 The main plotly distribution package
-
-%package config
-Summary: config components for the plotly package.
-Group: Default
-
-%description config
-config components for the plotly package.
-
 
 %package data
 Summary: data components for the plotly package.
@@ -37,6 +30,14 @@ Group: Data
 
 %description data
 data components for the plotly package.
+
+
+%package license
+Summary: license components for the plotly package.
+Group: Default
+
+%description license
+license components for the plotly package.
 
 
 %package python
@@ -59,13 +60,14 @@ python3 components for the plotly package.
 
 %prep
 %setup -q -n plotly-4.1.1
+%patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1569958852
+export SOURCE_DATE_EPOCH=1570229169
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -80,6 +82,8 @@ python3 setup.py build
 %install
 export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/plotly
+cp LICENSE.txt %{buildroot}/usr/share/package-licenses/plotly/LICENSE.txt
 python3 -tt setup.py build  install --root=%{buildroot}
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
@@ -88,14 +92,15 @@ echo ----[ mark ]----
 %files
 %defattr(-,root,root,-)
 
-%files config
-%defattr(-,root,root,-)
-%config /usr/etc/jupyter/nbconfig/notebook.d/plotlywidget.json
-
 %files data
 %defattr(-,root,root,-)
+/usr/share/jupyter/nbextensions/nbconfig/notebook.d/plotlywidget.json
 /usr/share/jupyter/nbextensions/plotlywidget/extension.js
 /usr/share/jupyter/nbextensions/plotlywidget/index.js
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/plotly/LICENSE.txt
 
 %files python
 %defattr(-,root,root,-)

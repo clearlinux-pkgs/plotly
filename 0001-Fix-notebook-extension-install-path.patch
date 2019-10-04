@@ -1,0 +1,25 @@
+From 78fd6b72bae7055aafbcc7490ab4ecc1f82bd027 Mon Sep 17 00:00:00 2001
+From: William Douglas <william.douglas@intel.com>
+Date: Fri, 4 Oct 2019 15:44:29 -0700
+Subject: [PATCH] Fix notebook extension install path
+
+---
+ setup.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/setup.py b/setup.py
+index d2e9832..ab5d526 100644
+--- a/setup.py
++++ b/setup.py
+@@ -488,7 +488,7 @@ setup(
+             "share/jupyter/nbextensions/plotlywidget",
+             ["plotlywidget/static/extension.js", "plotlywidget/static/index.js"],
+         ),
+-        ("etc/jupyter/nbconfig/notebook.d", ["plotlywidget.json"]),
++        ("share/jupyter/nbextensions/nbconfig/notebook.d", ["plotlywidget.json"]),
+     ],
+     install_requires=["retrying>=1.3.3", "six"],
+     zip_safe=False,
+-- 
+2.23.0
+
