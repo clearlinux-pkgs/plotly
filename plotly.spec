@@ -4,7 +4,7 @@
 #
 Name     : plotly
 Version  : 4.1.1
-Release  : 5
+Release  : 6
 URL      : https://files.pythonhosted.org/packages/3b/26/d68b3042f22ccff4156670dff167c086a94331fe32111d5972aeac0579d4/plotly-4.1.1.tar.gz
 Source0  : https://files.pythonhosted.org/packages/3b/26/d68b3042f22ccff4156670dff167c086a94331fe32111d5972aeac0579d4/plotly-4.1.1.tar.gz
 Summary  : An open-source, interactive graphing library for Python
@@ -53,6 +53,7 @@ python components for the plotly package.
 Summary: python3 components for the plotly package.
 Group: Default
 Requires: python3-core
+Provides: pypi(plotly)
 
 %description python3
 python3 components for the plotly package.
@@ -60,6 +61,7 @@ python3 components for the plotly package.
 
 %prep
 %setup -q -n plotly-4.1.1
+cd %{_builddir}/plotly-4.1.1
 %patch1 -p1
 
 %build
@@ -67,7 +69,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1570229169
+export SOURCE_DATE_EPOCH=1583202572
+# -Werror is for werrorists
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -83,7 +86,7 @@ python3 setup.py build
 export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/plotly
-cp LICENSE.txt %{buildroot}/usr/share/package-licenses/plotly/LICENSE.txt
+cp %{_builddir}/plotly-4.1.1/LICENSE.txt %{buildroot}/usr/share/package-licenses/plotly/c340b1b30a740d882e192d6d38588465417cfdc4
 python3 -tt setup.py build  install --root=%{buildroot}
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
@@ -100,7 +103,7 @@ echo ----[ mark ]----
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/plotly/LICENSE.txt
+/usr/share/package-licenses/plotly/c340b1b30a740d882e192d6d38588465417cfdc4
 
 %files python
 %defattr(-,root,root,-)
