@@ -4,10 +4,10 @@
 #
 Name     : plotly
 Version  : 4.1.1
-Release  : 8
+Release  : 9
 URL      : https://files.pythonhosted.org/packages/3b/26/d68b3042f22ccff4156670dff167c086a94331fe32111d5972aeac0579d4/plotly-4.1.1.tar.gz
 Source0  : https://files.pythonhosted.org/packages/3b/26/d68b3042f22ccff4156670dff167c086a94331fe32111d5972aeac0579d4/plotly-4.1.1.tar.gz
-Summary  : An open-source, interactive graphing library for Python
+Summary  : An open-source, interactive data visualization library for Python
 Group    : Development/Tools
 License  : MIT
 Requires: plotly-data = %{version}-%{release}
@@ -54,6 +54,8 @@ Summary: python3 components for the plotly package.
 Group: Default
 Requires: python3-core
 Provides: pypi(plotly)
+Requires: pypi(retrying)
+Requires: pypi(six)
 
 %description python3
 python3 components for the plotly package.
@@ -69,15 +71,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1583202572
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1603398842
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
 export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 export MAKEFLAGS=%{?_smp_mflags}
 python3 setup.py build
